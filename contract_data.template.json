@@ -1,0 +1,100 @@
+{
+  "contract": {
+    "conclusion_date": "DD.MM.YYYY",
+    "start_date": "DD.MM.YYYY",
+    "duration_months": 11,
+    "keys_count": 1
+  },
+  "landlord": {
+    "full_name": "ФАМИЛИЯ ИМЯ ОТЧЕСТВО",
+    "passport_series": "СЕРИЯ",
+    "passport_number": "НОМЕР",
+    "passport_issued_by": "КЕМ ВЫДАН",
+    "passport_issued_date": "DD.MM.YYYY",
+    "registration_address": "АДРЕС РЕГИСТРАЦИИ",
+    "phone": "+7 XXX XXX XX XX",
+    "email": "email@example.com"
+  },
+  "tenant": {
+    "full_name": "ФАМИЛИЯ ИМЯ ОТЧЕСТВО",
+    "date_of_birth": "DD.MM.YYYY",
+    "passport_series": "СЕРИЯ",
+    "passport_number": "НОМЕР",
+    "passport_issued_by": "КЕМ ВЫДАН",
+    "passport_issued_date": "DD.MM.YYYY",
+    "registration_address": "АДРЕС РЕГИСТРАЦИИ",
+    "phone": "+7 XXX XXX XX XX",
+    "email": "email@example.com"
+  },
+  "property": {
+    "type": "Квартира",
+    "address": {
+      "city": "ГОРОД",
+      "street": "УЛИЦА",
+      "house": "ДОМ",
+      "building": "КОРПУС",
+      "apartment": "КВАРТИРА",
+      "floor": "ЭТАЖ"
+    },
+    "cadastral_number": "XX:XX:XXXXXXX:XXXX",
+    "area": "ПЛОЩАДЬ",
+    "ownership": "единоличной собственности"
+  },
+  "financial": {
+    "monthly_rent": 60000,
+    "monthly_rent_text": "СУММА ПРОПИСЬЮ",
+    "security_deposit": 30000,
+    "security_deposit_text": "СУММА ПРОПИСЬЮ",
+    "payment_period_start": 18,
+    "payment_period_end": 20,
+    "first_payment_deadline": "DD.MM.YYYY",
+    "deposit_deadline": "DD.MM.YYYY",
+    "penalty_rate": 0.1,
+    "sbp_phone": "+7 XXX XXX XX XX"
+  },
+  "bank_details": {
+    "recipient": "ФАМИЛИЯ ИМЯ ОТЧЕСТВО",
+    "account_number": "НОМЕР СЧЕТА",
+    "payment_purpose": "Перевод средств по договору № НОМЕР_ДОГОВОРА ФАМИЛИЯ ИМЯ ОТЧЕСТВО НДС не облагается",
+    "bik": "БИК",
+    "bank_name": "НАЗВАНИЕ БАНКА",
+    "correspondent_account": "КОРР. СЧЕТ",
+    "inn": "ИНН",
+    "kpp": "КПП"
+  },
+  "inventory": [
+    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 1",
+    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 2",
+    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 3",
+    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 4"
+  ],
+  "meters": {
+    "electricity": {
+      "number": "НОМЕР СЧЕТЧИКА",
+      "reading": "ПОКАЗАНИЯ",
+      "date": "DD МЕСЯЦ YYYY г."
+    },
+    "cold_water": {
+      "number": "НОМЕР СЧЕТЧИКА",
+      "reading": "ПОКАЗАНИЯ",
+      "date": "DD МЕСЯЦ YYYY г."
+    },
+    "hot_water": {
+      "number": "НОМЕР СЧЕТЧИКА",
+      "reading": "ПОКАЗАНИЯ",
+      "date": "DD МЕСЯЦ YYYY г."
+    }
+  },
+  "rules": {
+    "max_additional_residents": 1,
+    "notification_days_for_residents": 3,
+    "animals_allowed_by_default": false,
+    "meters_submission_day": 15,
+    "meters_submission_time": "23:00",
+    "utility_payment_days": 5,
+    "termination_notice_days": 30,
+    "eviction_days": 7,
+    "deposit_return_days": 10
+  }
+}
+
