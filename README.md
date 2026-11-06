@@ -16,8 +16,6 @@ DocOps-arenda/
 ├── requirements.txt            # Зависимостей нет (только комментарий)
 ├── README.md                   # Документация
 ├── CHANGELOG.md                # История изменений
-├── docs/
-│   └── ASSESSMENT.md           # Оценка рисков, сложности и оптимизации
 ├── .gitignore                  # Исключения для Git
 ├── doc/                        # Сгенерированные документы (в .gitignore)
 │   ├── Договор_аренды_квартиры_v{timestamp}.docx
