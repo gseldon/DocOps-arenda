@@ -1,3 +1,2 @@
-python-docx==0.8.11
-pillow==9.0.0
-requests==2.28.0
+# Внешних зависимостей нет: проект использует только стандартную библиотеку Python 3.6+
+# (json, zipfile, datetime, os, shutil, tempfile).
