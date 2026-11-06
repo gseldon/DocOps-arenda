@@ -3,7 +3,8 @@
     "conclusion_date": "DD.MM.YYYY",
     "start_date": "DD.MM.YYYY",
     "duration_months": 11,
-    "keys_count": 1
+    "keys_count": 1,
+    "prolongation_months": 11
   },
   "landlord": {
     "full_name": "ФАМИЛИЯ ИМЯ ОТЧЕСТВО",
@@ -42,9 +43,7 @@
   },
   "financial": {
     "monthly_rent": 60000,
-    "monthly_rent_text": "СУММА ПРОПИСЬЮ",
     "security_deposit": 30000,
-    "security_deposit_text": "СУММА ПРОПИСЬЮ",
     "payment_period_start": 18,
     "payment_period_end": 20,
     "first_payment_deadline": "DD.MM.YYYY",
@@ -94,7 +93,8 @@
     "utility_payment_days": 5,
     "termination_notice_days": 30,
     "eviction_days": 7,
-    "deposit_return_days": 10
+    "deposit_return_days": 10,
+    "prolongation_notice_days": 30,
+    "indexation_notice_days": 30
   }
 }
-

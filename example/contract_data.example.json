@@ -1,0 +1,100 @@
+{
+  "contract": {
+    "conclusion_date": "18.11.2025",
+    "start_date": "19.11.2025",
+    "duration_months": 11,
+    "keys_count": 1,
+    "prolongation_months": 11
+  },
+  "landlord": {
+    "full_name": "Иванов Иван Иванович",
+    "passport_series": "1234",
+    "passport_number": "567890",
+    "passport_issued_by": "ГУ МВД России по г. Москве",
+    "passport_issued_date": "01.01.2010",
+    "registration_address": "г. Москва, ул. Примерная, д. 1, кв. 1",
+    "phone": "+7 900 123 45 67",
+    "email": "landlord@example.com"
+  },
+  "tenant": {
+    "full_name": "Петров Петр Петрович",
+    "date_of_birth": "01.01.1990",
+    "passport_series": "4321",
+    "passport_number": "098765",
+    "passport_issued_by": "ГУ МВД России по г. Москве",
+    "passport_issued_date": "15.06.2015",
+    "registration_address": "г. Москва, ул. Другая, д. 5, кв. 10",
+    "phone": "+7 901 234 56 78",
+    "email": "tenant@example.com"
+  },
+  "property": {
+    "type": "Квартира",
+    "address": {
+      "city": "Москва",
+      "street": "ул. Примерная",
+      "house": "10",
+      "building": "2",
+      "apartment": "42",
+      "floor": "5"
+    },
+    "cadastral_number": "77:01:0001001:1000",
+    "area": "45",
+    "ownership": "единоличной собственности"
+  },
+  "financial": {
+    "monthly_rent": 60000,
+    "security_deposit": 30000,
+    "payment_period_start": 18,
+    "payment_period_end": 20,
+    "first_payment_deadline": "20.11.2025",
+    "deposit_deadline": "20.11.2025",
+    "penalty_rate": 0.1,
+    "sbp_phone": "+7 900 123 45 67"
+  },
+  "bank_details": {
+    "recipient": "Иванов Иван Иванович",
+    "account_number": "40817810100001234567",
+    "payment_purpose": "Перевод средств по договору аренды, Иванов Иван Иванович, НДС не облагается",
+    "bik": "044525225",
+    "bank_name": "ПАО «Пример-банк»",
+    "correspondent_account": "30101810400000000225",
+    "inn": "1234567890",
+    "kpp": ""
+  },
+  "inventory": [
+    "Шкаф-купе с зеркалом",
+    "Микроволновая печь",
+    "Комод",
+    "Стиральная машина"
+  ],
+  "meters": {
+    "electricity": {
+      "number": "",
+      "reading": "",
+      "date": "19 ноября 2025 г."
+    },
+    "cold_water": {
+      "number": "",
+      "reading": "",
+      "date": "19 ноября 2025 г."
+    },
+    "hot_water": {
+      "number": "",
+      "reading": "",
+      "date": "19 ноября 2025 г."
+    }
+  },
+  "rules": {
+    "max_additional_residents": 1,
+    "notification_days_for_residents": 3,
+    "animals_allowed_by_default": false,
+    "meters_submission_day": 15,
+    "meters_submission_time": "23:00",
+    "utility_payment_days": 5,
+    "termination_notice_days": 30,
+    "eviction_days": 7,
+    "deposit_return_days": 10,
+    "prolongation_notice_days": 30,
+    "indexation_notice_days": 30
+  }
+}
