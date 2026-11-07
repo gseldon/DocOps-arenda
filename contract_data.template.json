@@ -1,6 +1,7 @@
 {
   "contract": {
     "conclusion_date": "DD.MM.YYYY",
+    "conclusion_city": "",
     "start_date": "DD.MM.YYYY",
     "duration_months": 11,
     "keys_count": 1,
@@ -62,10 +63,10 @@
     "kpp": "КПП"
   },
   "inventory": [
-    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 1",
-    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 2",
-    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 3",
-    "НАИМЕНОВАНИЕ ИМУЩЕСТВА 4"
+    {"name": "НАИМЕНОВАНИЕ ИМУЩЕСТВА 1", "serial": "", "quantity": 1, "condition": ""},
+    {"name": "НАИМЕНОВАНИЕ ИМУЩЕСТВА 2", "serial": "", "quantity": 1, "condition": ""},
+    {"name": "НАИМЕНОВАНИЕ ИМУЩЕСТВА 3", "serial": "", "quantity": 1, "condition": ""},
+    {"name": "НАИМЕНОВАНИЕ ИМУЩЕСТВА 4", "serial": "", "quantity": 1, "condition": ""}
   ],
   "meters": {
     "electricity": {

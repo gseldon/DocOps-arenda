@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 
 from contract_utils import (
-    blank, fmt_int, fmt_percent, full_address, load_contract_data, plain, run_cli)
+    blank, fmt_int, fmt_percent, full_address, inventory_items, load_contract_data, plain, run_cli)
 from docx_builder import paragraph, table, write_docx
 
 __all__ = ['load_contract_data', 'create_summary_body', 'create_docx']
@@ -102,6 +102,7 @@ def create_summary_body(data):
     gap()
     t([
         ['Дата заключения:', contract['conclusion_date']],
+        ['Место заключения:', 'г. {}'.format(contract['conclusion_city'])],
         ['Начало аренды:', contract['start_date']],
         ['Длительность:', plain(contract['duration_months'], 'month')],
         ['Передача ключей:', 'не позднее {} ({})'.format(
@@ -201,9 +202,17 @@ def create_summary_body(data):
     p('ПРИЛОЖЕНИЯ К ДОГОВОРУ', bold=True, size=28)
     gap()
     p('ПРИЛОЖЕНИЕ № 1: ОПИСЬ ИМУЩЕСТВА', bold=True, size=26)
-    for i, item in enumerate(data['inventory'], 1):
-        p('{}. {}'.format(i, item), size=22)
-    p('{}. (Дополнительные позиции заполняются при приемке)'.format(len(data['inventory']) + 1), size=22)
+    items = inventory_items(data)
+    for i, item in enumerate(items, 1):
+        parts = [item['name']]
+        if item['serial']:
+            parts.append('с/н {}'.format(item['serial']))
+        if item['quantity'] > 1:
+            parts.append('{} шт.'.format(item['quantity']))
+        if item['condition']:
+            parts.append(item['condition'])
+        p('{}. {}'.format(i, ', '.join(parts)), size=22)
+    p('{}. (Дополнительные позиции заполняются при приемке)'.format(len(items) + 1), size=22)
     gap()
 
     p('ПРИЛОЖЕНИЕ № 2: ПОКАЗАНИЯ СЧЕТЧИКОВ', bold=True, size=26)

@@ -10,8 +10,8 @@
 import sys
 
 from contract_utils import (
-    blank, counted, fmt_percent, full_address, load_contract_data, long_date, money,
-    quoted_date, run_cli)
+    blank, counted, fmt_percent, full_address, inventory_items, load_contract_data, long_date,
+    money, quoted_date, run_cli)
 from docx_builder import page_break, paragraph, paragraph_split, table, write_docx
 
 __all__ = ['load_contract_data', 'create_contract_body', 'create_docx']
@@ -59,7 +59,7 @@ def create_contract_body(data):
     p('Договор аренды помещения для проживания', bold=True, align='center', size=28)
     p('(далее – Договор)', bold=True, align='center', size=28)
     gap()
-    body.append(paragraph_split('г. {}'.format(addr['city']), conclusion))
+    body.append(paragraph_split('г. {}'.format(contract['conclusion_city'].strip()), conclusion))
     gap()
 
     # Таблица реквизитов сторон
@@ -262,12 +262,14 @@ def create_contract_body(data):
 
     # Приложение 1 - опись имущества
     appendix_header(1, 'ОПИСЬ ИМУЩЕСТВА', 'находящегося в помещении по адресу:')
-    inventory_rows = [['№ п/п', 'Наименование имущества', 'Количество', 'Состояние']]
-    for i, item in enumerate(data['inventory'], 1):
-        inventory_rows.append([str(i), item, '1 шт.', ''])
-    for i in range(len(data['inventory']) + 1, 11):  # пустые строки до 10
-        inventory_rows.append([str(i), '', '', ''])
-    body.append(table(inventory_rows, font_size=20, widths=[900, 4955, 1500, 2000]))
+    items = inventory_items(data)
+    inventory_rows = [['№ п/п', 'Наименование имущества', 'Серийный номер', 'Кол-во', 'Состояние']]
+    for i, item in enumerate(items, 1):
+        inventory_rows.append([str(i), item['name'], item['serial'] or '—',
+                               '{} шт.'.format(item['quantity']), item['condition']])
+    for i in range(len(items) + 1, 11):  # пустые строки до 10
+        inventory_rows.append([str(i), '', '', '', ''])
+    body.append(table(inventory_rows, font_size=20, widths=[800, 3655, 2300, 1100, 1500]))
     gap()
     p('Имущество передано Арендатору в исправном состоянии. Претензий по количеству и состоянию имущества Стороны друг к другу не имеют.')
     gap()

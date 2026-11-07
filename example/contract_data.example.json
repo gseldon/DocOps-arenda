@@ -1,6 +1,7 @@
 {
   "contract": {
     "conclusion_date": "18.11.2025",
+    "conclusion_city": "",
     "start_date": "19.11.2025",
     "duration_months": 11,
     "keys_count": 1,
@@ -62,10 +63,10 @@
     "kpp": ""
   },
   "inventory": [
-    "Шкаф-купе с зеркалом",
-    "Микроволновая печь",
-    "Комод",
-    "Стиральная машина"
+    {"name": "Шкаф-купе с зеркалом", "serial": "", "quantity": 1, "condition": ""},
+    {"name": "Микроволновая печь", "serial": "MW20K-4410", "quantity": 1, "condition": "исправна"},
+    {"name": "Стул", "serial": "", "quantity": 2, "condition": ""},
+    {"name": "Стиральная машина", "serial": "WM8812345", "quantity": 1, "condition": "исправна, без следов износа"}
   ],
   "meters": {
     "electricity": {

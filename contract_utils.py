@@ -192,6 +192,26 @@ def full_address(addr):
     return ', '.join(parts)
 
 
+def inventory_items(data):
+    """
+    Опись имущества как список словарей {name, serial, quantity, condition}.
+    Элемент описи - строка (старый формат) или объект
+    {"name": ..., "serial": ..., "quantity": ..., "condition": ...};
+    всё, кроме name, необязательно: serial и condition по умолчанию пустые, quantity - 1.
+    """
+    items = []
+    for item in data['inventory']:
+        if isinstance(item, str):
+            item = {'name': item}
+        items.append({
+            'name': item['name'].strip(),
+            'serial': (item.get('serial') or '').strip(),
+            'quantity': item.get('quantity') or 1,
+            'condition': (item.get('condition') or '').strip(),
+        })
+    return items
+
+
 def blank(value, length=30):
     """Пустое значение -> линия для заполнения от руки."""
     value = (value or '').strip()
@@ -371,8 +391,34 @@ def validate(data):
     inv = _get(data, 'inventory')
     if inv is _MISSING:
         err('inventory', 'поле отсутствует')
-    elif not isinstance(inv, list) or not inv or not all(isinstance(i, str) and i.strip() for i in inv):
-        err('inventory', 'ожидается непустой список непустых строк')
+    elif not isinstance(inv, list):
+        err('inventory', 'ожидается список предметов (может быть пустым)')
+    else:
+        for i, item in enumerate(inv):
+            path = 'inventory[{}]'.format(i)
+            if isinstance(item, str):
+                if not item.strip():
+                    err(path, 'пустое наименование')
+            elif isinstance(item, dict):
+                name = item.get('name')
+                if not isinstance(name, str) or not name.strip():
+                    err(path + '.name', 'ожидается непустая строка')
+                for key in ('serial', 'condition'):
+                    v = item.get(key)
+                    if v is not None and not isinstance(v, str):
+                        err('{}.{}'.format(path, key), 'ожидается строка или пустое значение')
+                qty = item.get('quantity')
+                if qty is not None and not (_is_int(qty) and qty >= 1):
+                    err(path + '.quantity', 'ожидается целое число не меньше 1')
+                extra = set(item) - {'name', 'serial', 'quantity', 'condition'}
+                if extra:
+                    err(path, 'неизвестные поля: {}'.format(', '.join(sorted(extra))))
+            else:
+                err(path, 'ожидается строка или объект {"name": ..., "serial": ...}')
+
+    city = _get(data, 'contract.conclusion_city')
+    if city is not _MISSING and city is not None and not isinstance(city, str):
+        err('contract.conclusion_city', 'ожидается строка или пустое значение')
 
     for path, value in _walk_strings(data):
         if is_placeholder(value):
@@ -385,6 +431,9 @@ def with_defaults(data):
     """Копия данных с необязательными параметрами по умолчанию."""
     data = copy.deepcopy(data)
     data['contract'].setdefault('prolongation_months', data['contract']['duration_months'])
+    # место заключения: если не указано, город квартиры
+    if not (data['contract'].get('conclusion_city') or '').strip():
+        data['contract']['conclusion_city'] = data['property']['address']['city']
     rules = data['rules']
     rules.setdefault('prolongation_notice_days', rules['termination_notice_days'])
     rules.setdefault('indexation_notice_days', rules['termination_notice_days'])

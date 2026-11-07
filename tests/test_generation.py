@@ -170,7 +170,7 @@ class Generation(unittest.TestCase):
     def test_special_characters_are_escaped(self):
         data = example()
         data['bank_details']['bank_name'] = 'ООО «Альфа & Партнёры» <test>'
-        data['inventory'][0] = 'Стол & стулья'
+        data['inventory'][0] = {'name': 'Стол & стулья', 'serial': 'A<1>&B'}
         for module in (create_contract, create_summary):
             _, text = self.check_package(self.generate(data, module))
             self.assertIn('Альфа & Партнёры» <test>', text)
@@ -183,6 +183,75 @@ class Generation(unittest.TestCase):
         _, text = self.check_package(self.generate(data, create_contract))
         self.assertNotIn('корп.', text)
         self.assertIn('Тел.: ____', text)
+
+    def test_inventory_serial_numbers(self):
+        _, text = self.check_package(self.generate(example(), create_contract))
+        self.assertIn('Серийный номер', text)
+        self.assertIn('MW20K-4410', text)
+        self.assertIn('WM8812345', text)
+        self.assertIn('—', text)  # предмет без серийного номера
+        _, summary = self.check_package(self.generate(example(), create_summary))
+        self.assertIn('Микроволновая печь, с/н MW20K-4410', summary)
+        self.assertIn('1. Шкаф-купе с зеркалом', summary)
+        self.assertNotIn('Шкаф-купе с зеркалом, с/н', summary)
+
+    def test_inventory_quantity_and_condition(self):
+        doc, _ = self.check_package(self.generate(example(), create_contract))
+        rows = None
+        for tbl in doc.iter(W + 'tbl'):
+            cells = [[''.join(t.text or '' for t in tc.iter(W + 't')) for tc in tr.findall(W + 'tc')]
+                     for tr in tbl.findall(W + 'tr')]
+            if cells[0][2:3] == ['Серийный номер']:
+                rows = cells
+        self.assertIsNotNone(rows)
+        self.assertEqual(rows[2], ['2', 'Микроволновая печь', 'MW20K-4410', '1 шт.', 'исправна'])
+        self.assertEqual(rows[3], ['3', 'Стул', '—', '2 шт.', ''])
+        _, summary = self.check_package(self.generate(example(), create_summary))
+        self.assertIn('3. Стул, 2 шт.', summary)
+        self.assertIn('Микроволновая печь, с/н MW20K-4410, исправна', summary)
+
+    def test_conclusion_city(self):
+        data = example()
+        data['contract']['conclusion_city'] = 'Казань'
+        _, text = self.check_package(self.generate(data, create_contract))
+        self.assertIn('г. Казань', text)
+        self.assertIn('г. Москва, ул. Примерная', text)  # адрес квартиры не меняется
+        self.assertNotIn('г. Казань, ул.', text)
+
+    def test_conclusion_city_missing_in_old_json(self):
+        data = example()
+        del data['contract']['conclusion_city']
+        self.assertEqual(cu.validate(data), [])
+        self.assertEqual(cu.with_defaults(data)['contract']['conclusion_city'], 'Москва')
+
+    def test_inventory_plain_strings_still_work(self):
+        data = example()
+        data['inventory'] = ['Стол', {'name': 'Холодильник'}]
+        self.assertEqual(cu.validate(data), [])
+        _, text = self.check_package(self.generate(data, create_contract))
+        self.assertIn('Стол', text)
+        self.assertIn('Холодильник', text)
+
+
+class InventoryValidation(unittest.TestCase):
+    def test_bad_items(self):
+        data = example()
+        data['inventory'] = ['', {'serial': 'X'}, {'name': 'Стул', 'serial': 5},
+                             {'name': 'Шкаф', 'color': 'белый'}, 42,
+                             {'name': 'А', 'quantity': 0}, {'name': 'Б', 'quantity': '2'},
+                             {'name': 'В', 'quantity': 1.5}, {'name': 'Г', 'condition': 3}]
+        errors = ' '.join(cu.validate(data))
+        for path in ('inventory[0]', 'inventory[1].name', 'inventory[2].serial',
+                     'inventory[3]', 'inventory[4]', 'inventory[5].quantity',
+                     'inventory[6].quantity', 'inventory[7].quantity', 'inventory[8].condition'):
+            self.assertIn(path, errors)
+
+    def test_empty_list_allowed(self):
+        data = example()
+        data['inventory'] = []
+        self.assertEqual(cu.validate(data), [])
+        data['inventory'] = 'Стол'
+        self.assertTrue(any('inventory' in e for e in cu.validate(data)))
 
 
 if __name__ == '__main__':
